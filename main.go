@@ -26,5 +26,6 @@ func main() {
 	e.PATCH("/student/:id", studentHandler.UpdateStudent)
 	e.DELETE("/student/:id", studentHandler.DeleteStudent)
 
+	e.GET("/studentWithTeacher", studentHandler.GetAllStudentsWithTeacherName)
 	e.Logger.Fatal(e.Start(":9000"))
 }

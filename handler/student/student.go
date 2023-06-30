@@ -85,3 +85,24 @@ func (h *StudentHandler) DeleteStudent(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, "Student deleted successfully")
 }
+
+type StudentWithTeacherName struct {
+	models.Student
+	TeacherName string `json:"teacher_name"`
+}
+
+func (h *StudentHandler) GetAllStudentsWithTeacherName(c echo.Context) error {
+	var students []StudentWithTeacherName
+
+	query := `
+		SELECT student.*, teacher.name AS teacher_name
+		FROM student
+		INNER JOIN teacher ON student.course = teacher.coursename
+	`
+
+	if result := h.db.Raw(query).Scan(&students); result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, "Failed to retrieve students with teacher names")
+	}
+
+	return c.JSON(http.StatusOK, students)
+}
