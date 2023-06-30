@@ -20,70 +20,84 @@ func NewStudentHandler(db *gorm.DB) *StudentHandler {
 func (h *StudentHandler) GetAllStudent(c echo.Context) error {
 	students := []models.Student{}
 
-	result := h.db.Find(&students)
-	if result.Error != nil {
+	//find เป็น คำส่ง SELECT * FROM ตัวที่มีค่าตรงกับ model ที่ใส่ไป
+	// h.db.Find(&ตัวแปรที่ต้องการใส่ค่า) พร้อมดัก
+	if ??? != nil {
 		c.JSON(http.StatusBadRequest, "student not found")
-		return result.Error
+		return ???.Error
 	}
+	
+	//c.JSON(statusCode int, i interface{})
+	// c.json จะเป็น JSON response โดย parameter แรกจะเป็น int (status code) อันที่ 2 คือใส่อะไรไปจะ return อันนั้น
+	//200: OK - ร้องขอสำเร็จและมีข้อมูลที่ส่งกลับ
+	// 201: Created - การสร้างข้อมูลสำเร็จ
+	// 400: Bad Request - การร้องขอไม่ถูกต้องหรือมีข้อมูลไม่ครบถ้วน
+	// 401: Unauthorized - การร้องขอไม่ได้รับการรับรองตัวตน
+	// 403: Forbidden - ไม่ได้รับอนุญาตให้เข้าถึงทรัพยากร
+	// 404: Not Found - ทรัพยากรที่ร้องขอไม่พบ
+	// 500: Internal Server Error - เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์ 
 
-	return c.JSON(http.StatusOK, students)
+	return c.JSON(????,???)
 }
 func (h *StudentHandler) GetStudentById(c echo.Context) error {
 	id := c.Param("id")
 
 	student := models.Student{}
 
-	if result := h.db.First(&student, id); result.Error != nil {
+	//First เป็น คำส่ง SELECT * FROM ตัวที่มีค่าตรงกับ model ที่ใส่ไป คล้าย find แต่ parameter ตัวที่สองคือ where
+	// h.db.First(&ตัวแปรที่ต้องการใส่ค่า, ตัวที่ต้องการ หา)
+	if ???? := ???; ???? != nil {
 		return c.JSON(http.StatusNotFound, "student not found")
 	}
 
-	return c.JSON(http.StatusOK, student)
+	return c.JSON(???, ????)
 }
 func (h *StudentHandler) CreateStudent(c echo.Context) error {
 	var student models.Student
 
-	if err := c.Bind(&student); err != nil {
+	// c.Bind(&ตัวแปรที่ต้องการ map ค่า) เป็น function เพื่อรับค่าจาก request มา map
+	if err := c.Bind(&????); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid data format")
 	}
+	//h.db.Create (& ตัวที่ต้องการ insert)คือการ insert ข้อมูลตาม struct
+	// INSERT INTO student ("name", "gender", "course") VALUES (?, ?, ?)
 
-	if result := h.db.Create(&student); result.Error != nil {
+	if ??? := h.db.Create(&???); ???.Error != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to create student")
 	}
 
-	return c.JSON(http.StatusCreated, &student)
+	return c.JSON(???, &???)
 }
 func (h *StudentHandler) UpdateStudent(c echo.Context) error {
 	id := c.Param("id")
 
-	var student models.Student
-	if result := h.db.First(&student, id); result.Error != nil {
-		return c.JSON(http.StatusNotFound, "Student not found")
-	}
 
-	var updatedStudent models.Student
-	if err := c.Bind(&updatedStudent); err != nil {
-		return c.JSON(http.StatusBadRequest, "Invalid data format")
-	}
+	//หานักเรียนโดย id แล้ว map เก็บไว้ พร้อมดัก errors hint.GetStudentById
+	
 
-	if result := h.db.Model(&student).Updates(updatedStudent); result.Error != nil {
+	//รับค่า request มาเก็บเป็นตัวแปรพร้อมดัก errors hint.CreateStudent
+	
+
+	//Syntax ในการ update
+	//h.db.Model(&model).Updates(ค่าที่ request ที่ map มา)
+	if ??? := ??????; ???.Error != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to update student")
 	}
 
-	return c.JSON(http.StatusOK, &student)
+	return c.JSON(???, ???)
 }
 func (h *StudentHandler) DeleteStudent(c echo.Context) error {
 	id := c.Param("id")
 
-	var student models.Student
-	if result := h.db.First(&student, id); result.Error != nil {
-		return c.JSON(http.StatusNotFound, "Student not found")
-	}
+	//หานักเรียนโดย id แล้ว map เก็บไว้ พร้อมดัก errors hint.GetStudentById
 
-	if result := h.db.Delete(&student); result.Error != nil {
+	//Syntax ในการลบ
+	//h.db.Delete(&model ทีต้องการลบ)
+	if (???, := (???,; (???,.Error != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to delete student")
 	}
 
-	return c.JSON(http.StatusOK, "Student deleted successfully")
+	return c.JSON((???,, ???)
 }
 
 type StudentWithTeacherName struct {
@@ -94,15 +108,15 @@ type StudentWithTeacherName struct {
 func (h *StudentHandler) GetAllStudentsWithTeacherName(c echo.Context) error {
 	var students []StudentWithTeacherName
 
+	
 	query := `
 		SELECT student.*, teacher.name AS teacher_name
 		FROM student
 		INNER JOIN teacher ON student.course = teacher.coursename
 	`
 
-	if result := h.db.Raw(query).Scan(&students); result.Error != nil {
-		return c.JSON(http.StatusInternalServerError, "Failed to retrieve students with teacher names")
-	}
+		//h.db.Raw(query).Scan(&ตัวแปรที่ต้องการใส่ค่า) พร้อมดัก error
+		if result :=
 
 	return c.JSON(http.StatusOK, students)
 }
