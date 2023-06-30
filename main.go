@@ -29,3 +29,6 @@ func main() {
 	e.GET("/studentWithTeacher", studentHandler.GetAllStudentsWithTeacherName)
 	e.Logger.Fatal(e.Start(":9000"))
 }
+
+//เป็นพื้นฐานการทำ CRUD ของ GO
+// ทำการเติม Function ต่างใน Folder Handler/student ให้สามารถใช้งานได้ โดยแทนค่าข้าไปใน เครื่องหมาย ??? ที่มีไว้ให้

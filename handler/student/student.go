@@ -21,8 +21,8 @@ func (h *StudentHandler) GetAllStudent(c echo.Context) error {
 	students := []models.Student{}
 
 	//find เป็น คำส่ง SELECT * FROM ตัวที่มีค่าตรงกับ model ที่ใส่ไป
-	// h.db.Find(&ตัวแปรที่ต้องการใส่ค่า) พร้อมดัก
-	if ??? != nil {
+	// err:= h.db.Find(&ตัวแปรที่ต้องการใส่ค่า) โดยจะ return err เป็น err.Error
+	if ??? :=??? != nil {
 		c.JSON(http.StatusBadRequest, "student not found")
 		return ???.Error
 	}
@@ -37,7 +37,7 @@ func (h *StudentHandler) GetAllStudent(c echo.Context) error {
 	// 404: Not Found - ทรัพยากรที่ร้องขอไม่พบ
 	// 500: Internal Server Error - เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์ 
 
-	return c.JSON(????,???)
+	return c.JSON(???,???)
 }
 func (h *StudentHandler) GetStudentById(c echo.Context) error {
 	id := c.Param("id")
@@ -45,12 +45,12 @@ func (h *StudentHandler) GetStudentById(c echo.Context) error {
 	student := models.Student{}
 
 	//First เป็น คำส่ง SELECT * FROM ตัวที่มีค่าตรงกับ model ที่ใส่ไป คล้าย find แต่ parameter ตัวที่สองคือ where
-	// h.db.First(&ตัวแปรที่ต้องการใส่ค่า, ตัวที่ต้องการ หา)
-	if ???? := ???; ???? != nil {
+	// err:=h.db.First(&ตัวแปรที่ต้องการใส่ค่า, ตัวที่ต้องการ หา) โดยจะ return err เป็น err.Error
+	if ??? := ???; ??? != nil {
 		return c.JSON(http.StatusNotFound, "student not found")
 	}
 
-	return c.JSON(???, ????)
+	return c.JSON(???, ???)
 }
 func (h *StudentHandler) CreateStudent(c echo.Context) error {
 	var student models.Student
@@ -59,7 +59,7 @@ func (h *StudentHandler) CreateStudent(c echo.Context) error {
 	if err := c.Bind(&????); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid data format")
 	}
-	//h.db.Create (& ตัวที่ต้องการ insert)คือการ insert ข้อมูลตาม struct
+	//err:= h.db.Create (& ตัวที่ต้องการ insert)คือการ insert ข้อมูลตาม struct โดยจะ return err เป็น err.Error
 	// INSERT INTO student ("name", "gender", "course") VALUES (?, ?, ?)
 
 	if ??? := h.db.Create(&???); ???.Error != nil {
@@ -79,8 +79,8 @@ func (h *StudentHandler) UpdateStudent(c echo.Context) error {
 	
 
 	//Syntax ในการ update
-	//h.db.Model(&model).Updates(ค่าที่ request ที่ map มา)
-	if ??? := ??????; ???.Error != nil {
+	//err:= h.db.Model(&model).Updates(ค่าที่ request ที่ map มา) โดยจะ return err เป็น err.Error
+	if ??? := ???; ???.Error != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to update student")
 	}
 
@@ -92,7 +92,7 @@ func (h *StudentHandler) DeleteStudent(c echo.Context) error {
 	//หานักเรียนโดย id แล้ว map เก็บไว้ พร้อมดัก errors hint.GetStudentById
 
 	//Syntax ในการลบ
-	//h.db.Delete(&model ทีต้องการลบ)
+	//err:= h.db.Delete(&model ทีต้องการลบ) โดยจะ return err เป็น err.Error
 	if (???, := (???,; (???,.Error != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to delete student")
 	}
@@ -115,8 +115,8 @@ func (h *StudentHandler) GetAllStudentsWithTeacherName(c echo.Context) error {
 		INNER JOIN teacher ON student.course = teacher.coursename
 	`
 
-		//h.db.Raw(query).Scan(&ตัวแปรที่ต้องการใส่ค่า) พร้อมดัก error
-		if result :=
+		//err:=h.db.Raw(query).Scan(&ตัวแปรที่ต้องการใส่ค่า) พร้อมดัก error โดยจะ return err เป็น err.Error
+		if ??? := ???
 
-	return c.JSON(http.StatusOK, students)
+	return c.JSON(???, ???)
 }
